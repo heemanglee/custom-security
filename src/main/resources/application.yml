@@ -17,3 +17,8 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug # 발생되는 쿼리문을 로그로 출력
+
+jwt:
+  secret-key: bc1468be411fc43d78ca5310d3ff4b75a20a4d3758c3b65cf8588e04a5e09585477afdd260f6660a4378432e1db3a5f305b86fbe78b69c08d85410b8381ae2ca
+  expiration-time: 86400000  #토크 만료 시간
+  issuer: hope # 토근 발급자

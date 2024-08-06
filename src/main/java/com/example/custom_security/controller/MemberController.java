@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -43,14 +44,14 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute RegisterRequest request) {
+    @ResponseBody
+    public RegisterResponse register(@RequestBody RegisterRequest request) {
         log.info("request = {}", request);
         RegisterResponse response = memberService.register(request);
 
         // response = RegisterResponse(id=1, email=test@test.com, password=$2a$10$Q8NNVZ6jfvakrcJvWE1dIut7KYp9jNeaeUG5jR7hp85k2jiWUS8aK, role=사용자)
         log.info("response = {}", response);
-
-        return "redirect:/";
+        return response;
     }
 
     @GetMapping("/login")
@@ -60,7 +61,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @ResponseBody
-    public LoginResponse login(@ModelAttribute LoginRequest request) {
+    public LoginResponse login(@RequestBody LoginRequest request) {
         log.info("request = {}", request);
         LoginResponse response = memberService.login(request);
 

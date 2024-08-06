@@ -13,8 +13,9 @@ public class LoginResponse {
     private Long id;
     private String email;
     private String password;
+    private String token;
 
-    public static LoginResponse of(Member member) {
-        return new LoginResponse(member.getId(), member.getEmail(), member.getPassword());
+    public static LoginResponse from(Member member, String token) {
+        return new LoginResponse(member.getId(), member.getEmail(), member.getPassword(), token);
     }
 }
