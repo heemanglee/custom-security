@@ -6,11 +6,9 @@ import com.example.custom_security.dto.RegisterRequest;
 import com.example.custom_security.dto.RegisterResponse;
 import com.example.custom_security.entity.Member;
 import com.example.custom_security.security.CurrentUser;
-import com.example.custom_security.security.CustomUserDetails;
 import com.example.custom_security.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -68,5 +66,15 @@ public class MemberController {
 
         log.info("response = {}", response);
         return response; // return을 무시하고, security config에서 defaultSuccessUrl을 지정한 경로로 이동한다.
+    }
+
+    @GetMapping("/authorization-user")
+    public String authorizationUser() {
+        return "authorizationUser";
+    }
+
+    @GetMapping("/authorization-admin")
+    public String authorizationAdmin() {
+        return "authorizationAdmin";
     }
 }

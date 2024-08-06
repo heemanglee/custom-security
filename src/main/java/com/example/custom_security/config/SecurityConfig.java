@@ -1,7 +1,9 @@
 package com.example.custom_security.config;
 
+import com.example.custom_security.entity.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +30,8 @@ public class SecurityConfig {
                     authorizeConfig
                         .requestMatchers("/h2-console/**").permitAll() // h2-console 인증 없이 접근 허용
                         .requestMatchers("/login", "/register", "/home").permitAll() // /login, /register 인증 없이 접근 허용
+                        .requestMatchers(HttpMethod.GET, "/authorization-user").hasAnyRole("USER", "ADMIN") // /authorization-user 요청은 USER 또는 ADMIN 권한이 있어야 접근 가능
+                        .requestMatchers(HttpMethod.GET, "/authorization-admin").hasRole("ADMIN") // /authorization-admin 요청은 ADMIN 권한이 있어야 접근 가능
                         .anyRequest().authenticated(); // 나머지 요청은 인증 필요
                 }
             )
