@@ -2,6 +2,7 @@ package com.example.custom_security.security;
 
 import com.example.custom_security.entity.Member;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -21,10 +22,28 @@ public class CurrentUserHandlerMethodArgumentResolver implements HandlerMethodAr
     }
 
     // supportsParameter()가 true를 반환하는 경우, 실제 바인딩할 객체를 반환하는 메서드
+    // 아래의 경우 @CurrentUser 애너테이션을 사용하는 파라미터에 Member 객체를 바인딩한다.
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+
+        // 인증되지 않은 사용자라면 null을 반환한다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        /**
+         * SecurityContextHolder.getContext().getAuthentication()은 현재 사용자의 인증 정보를 가져온다.
+         * 인증되지 않은 사용자라면 null을 반환한다.
+         * ----------------------------------------------------------------------------------------------------
+         * authentication.isAuthenticated() : 사용자가 인증되었는지 여부를 반환한다.
+         * 인증되지 않은 사용자라면 false를 반환한다.
+         * ----------------------------------------------------------------------------------------------------
+         * authentication.getPrincipal().equals("anonymousUser") : 사용자가 익명 사용자인지 여부를 반환한다.
+         * 인증되지 않은 사용자로 인식될 때, authentication.getPrincipal()은 "anonymousUser" 문자열을 반환할 수 있다.
+         */
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null; // null 객체 반환
+        }
+
         // SecurityContext에 저장된 Authentication 객체에서 principal(UserDetails)을 가져온다.
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         return userDetails.getMember(); // CustomUserDetails에 저장된 Member 객체를 반환한다.
     }
 }
