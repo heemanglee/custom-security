@@ -1,5 +1,6 @@
 package com.example.custom_security.security;
 
+import com.example.custom_security.entity.Member;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ public class CustomUserDetails implements UserDetails { // UserDetails를 구현
     private String email; // principal -> 사용자를 식별하기 위한 고유한 정보
     private String password; // credentials -> 사용자의 비밀번호
     private String role; // authorities -> 사용자의 권한
+    private Member member; // 실제 member 객체
 
     // 사용자의 권한을 리턴한다.
     @Override
@@ -52,5 +54,9 @@ public class CustomUserDetails implements UserDetails { // UserDetails를 구현
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public Member getMember() {
+        return member;
     }
 }

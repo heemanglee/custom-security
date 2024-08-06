@@ -27,6 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 실제 DB에서 조회한 사용자 정보를 UserDetails 객체에 매핑한다.
         // 여기서는 UserDetails를 구현한 CustomUserDetails를 반환한다.
         return new CustomUserDetails(findMember.getEmail(), findMember.getPassword(),
-            findMember.getRole().name());
+            findMember.getRole().name(), findMember);
     }
 }

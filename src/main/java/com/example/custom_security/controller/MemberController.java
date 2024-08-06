@@ -4,6 +4,7 @@ import com.example.custom_security.dto.LoginRequest;
 import com.example.custom_security.dto.LoginResponse;
 import com.example.custom_security.dto.RegisterRequest;
 import com.example.custom_security.dto.RegisterResponse;
+import com.example.custom_security.entity.Member;
 import com.example.custom_security.security.CurrentUser;
 import com.example.custom_security.security.CustomUserDetails;
 import com.example.custom_security.service.MemberService;
@@ -24,13 +25,15 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/home")
-    public String home(@CurrentUser CustomUserDetails member) {
+    public String home(@CurrentUser Member member) {
         if (member != null) {
             // member.email = test@test.com,
             // member.password = $2a$10$Q8NNVZ6jfvakrcJvWE1dIut7KYp9jNeaeUG5jR7hp85k2jiWUS8aK,
             // member.role = [CustomGrantedAuthority(role=ROLE_USER)]
-            log.info("member.email = {}, member.password = {}, member.role = {}",
-                member.getUsername(), member.getPassword(), member.getAuthorities());
+//            log.info("member.email = {}, member.password = {}, member.role = {}, member.member = {}",
+//                member.getUsername(), member.getPassword(), member.getAuthorities(), member.getMember());
+
+            log.info("member.email = {}, member.password = {}, member.role = {}", member.getEmail(), member.getPassword(), member.getRole());
         }
 
         return "index";
