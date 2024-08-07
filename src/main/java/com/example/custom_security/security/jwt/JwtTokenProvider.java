@@ -1,6 +1,7 @@
 package com.example.custom_security.security.jwt;
 
 import com.example.custom_security.entity.Member;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -45,7 +46,7 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰을 검증
-    public String validateTokenAndGetSubject(String jwtToken) {
+    public Claims validateJwtToken(String jwtToken) {
         return Jwts.parserBuilder()
             .setSigningKey(key) // 서명 검증 사용하는 키
             .build()
@@ -56,7 +57,6 @@ public class JwtTokenProvider {
              * parseClaimsJwts() : 서명이 있는 JWT를 파싱하기 위한 메서드
              */
             .parseClaimsJws(jwtToken)
-            .getBody() // JWT의 payload 추출
-            .getSubject(); // payload에서 subject 추출
+            .getBody(); // JWT의 payload 추출
     }
 }

@@ -1,5 +1,6 @@
 package com.example.custom_security.controller;
 
+import com.example.custom_security.dto.GetUserInfoResponse;
 import com.example.custom_security.dto.LoginRequest;
 import com.example.custom_security.dto.LoginResponse;
 import com.example.custom_security.dto.RegisterRequest;
@@ -77,5 +78,11 @@ public class MemberController {
     @GetMapping("/authorization-admin")
     public String authorizationAdmin() {
         return "authorizationAdmin";
+    }
+
+    @GetMapping("/me")
+    @ResponseBody
+    public GetUserInfoResponse me(@CurrentUser Member member) {
+        return GetUserInfoResponse.of(member);
     }
 }

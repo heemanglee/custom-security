@@ -43,6 +43,8 @@ public class CurrentUserHandlerMethodArgumentResolver implements HandlerMethodAr
         }
 
         // SecurityContext에 저장된 Authentication 객체에서 principal(UserDetails)을 가져온다.
+        // JwtAuthenticationFilter에서 SecurityContextHolder.getContext().setAuthentication(authenticated)로 저장한 CustomUserDetails 객체를 가져온다
+        // UserDetails를 구현한 CustomUserDetails 객체를 가져온다.
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         return userDetails.getMember(); // CustomUserDetails에 저장된 Member 객체를 반환한다.
     }
